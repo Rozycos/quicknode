@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 //const fs = require('fs').promises;
 const compression = require('compression');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -9,14 +10,14 @@ const port = process.env.PORT || 3000;
 // gzip compression for static files
 app.use(compression());
 
-// // Set limits for different routes - you must install 'express-rate-limit' (npm install express-rate-limit)
-// const limiter = rateLimit({
-//     windowMs: 15 * 60 * 1000, // 15 min
-//     max: 100 // maximum number of requests for one IP address in a time
-//   });
+// Set limits for different routes - you must install 'express-rate-limit' (npm install express-rate-limit)
+const limiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 min
+    max: 300 // maximum number of requests for one IP address in a time
+  });
   
-//   // Apply limits to all routes
-//   app.use(limiter);
+  // Apply limits to all routes
+  app.use(limiter);
 
 // Setting the build directory for static files
 app.use(express.static(path.join(__dirname, 'build'), {
