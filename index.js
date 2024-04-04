@@ -1,6 +1,6 @@
 const express = require('express');
 const path = require('path');
-const fs = require('fs').promises;
+//const fs = require('fs').promises;
 const compression = require('compression');
 
 const app = express();
@@ -25,19 +25,20 @@ app.use(express.static(path.join(__dirname, 'build'), {
 
 // Endpoint for handling GET requests to the root directory
 app.get('/', async (req, res) => {
-  try {
-    // Simple HTML as a response to a request
-    res.write('<html><head><title>Simple Node Server</title></head><body><h1>Simple Node Server</h1><p>Loading...</p></body></html>');
+    res.sendFile(path.join(__dirname, 'build', 'index.html'), 'utf8');
+    //   try {
+//     // Simple HTML as a response to a request
+//     res.write('<html><head><title>Simple Node Server</title></head><body><h1>Simple Node Server</h1><p>Loading...</p></body></html>');
 
-    // Load the contents of the index.html file asynchronously
-    const indexHtmlContent = await fs.readFile(path.join(__dirname, 'build', 'index.html'), 'utf8');
+//     // Load the contents of the index.html file asynchronously
+//     const indexHtmlContent = await fs.readFile(path.join(__dirname, 'build', 'index.html'), 'utf8');
 
-    // After loading the index.html file, we send it as a response
-    res.end(indexHtmlContent);
-  } catch (error) {
-    console.error('An error occurred while loading the index.html file: ', error);
-    res.status(500).send('500 internal server error');
-  }
+//     // After loading the index.html file, we send it as a response
+//     res.end(indexHtmlContent);
+//   } catch (error) {
+//     console.error('An error occurred while loading the index.html file: ', error);
+//     res.status(500).send('500 internal server error');
+//   }
 });
 
 // Server start
